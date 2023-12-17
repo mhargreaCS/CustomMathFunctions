@@ -14,7 +14,7 @@ namespace CustomFunctions
             }
             return y;
         }
-        public static float round(float value, int decPoints) // Work-in-progress
+        public static float round(float value, int decPoints) 
         {
             string valueString = value.ToString();
             int decimalLoc = 0;
