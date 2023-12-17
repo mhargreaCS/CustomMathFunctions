@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 
 namespace CustomFunctions
 {
@@ -15,34 +16,56 @@ namespace CustomFunctions
         }
         public static float round(float value, int decPoints) // Work-in-progress
         {
-            float floatConvert = value * (newMath.power(decPoints));
-            int newInt = Convert.ToInt32(floatConvert); 
-            string rounding = Convert.ToString(newInt);
-            char[] newNum = new char[decPoints + (rounding.Length - decPoints) + 1];
-
-            for (int i = 0; i < decPoints; i++)
+            string valueString = value.ToString();
+            int decimalLoc = 0;
+            foreach (char item in valueString)
             {
-                newNum[i] = rounding[i];
+                if (item == '.')
+                {
+                    decimalLoc++;
+                    break;
+                }
+                else
+                {
+                    decimalLoc++;
+                }
             }
 
-            newNum[rounding.Length - decPoints - 1] = '.';
-
-            for (int i = 0; i < newNum.Length; i++)
+            int newLength = decimalLoc + decPoints;
+            char[] placeholder = new char[newLength];
+            char[] valueStringArr = valueString.ToCharArray();
+            for (int i = 0; i <= newLength - 1; i++)
             {
-                Console.WriteLine(newNum[i]);
+                placeholder[i] = valueStringArr[i];
             }
-            string newNum2 = Convert.ToString(newNum);
-            float newRounded = Convert.ToSingle(newNum2);
-            float finalRounded = newRounded;
-            
-            return newRounded;
+
+            int index = Convert.ToInt32(placeholder[placeholder.Length - 2]);
+            if (placeholder[placeholder.Length - 1] == '1' || placeholder[placeholder.Length - 1] == '2' || placeholder[placeholder.Length - 1] == '3' || placeholder[placeholder.Length - 1] == '4')
+            {
+                placeholder[placeholder.Length - 1] = '0';
+            }
+            else 
+            {
+                index++;
+                placeholder[placeholder.Length - 2] = Convert.ToChar(index);
+                placeholder[placeholder.Length - 1] = ' ';
+            }
+
+            string finalValueString = "";
+            for (int x = 0; x < placeholder.Length; x++)
+            {
+                finalValueString = String.Concat(finalValueString, placeholder[x]);
+            }
+            float finalRound = float.Parse(finalValueString);
+
+            return finalRound;
         }
     }
     class ProgramDriver
     {
         static void Main(string[] args)
         {
-            float x = 7.9182637f; int y = 4;
+            float x = 1237.9166637f; int y = 4;
 
             float newfor = newMath.round(x, y);
             Console.WriteLine(newfor);
